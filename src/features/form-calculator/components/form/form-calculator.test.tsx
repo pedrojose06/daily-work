@@ -4,6 +4,6 @@ import FormCalculator from "./fom-calculator";
 
 test("render FormCalculator", () => {
 	const getByText = render(<FormCalculator />);
-	const teste = getByText.getByText("Insira a carga horária diária");
+	const teste = getByText.getByText("Hora diária");
 	expect(teste).toBeDefined();
 });
