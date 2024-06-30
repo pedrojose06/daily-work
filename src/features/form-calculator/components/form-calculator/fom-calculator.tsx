@@ -2,7 +2,9 @@
 
 import { useAtom } from "jotai";
 import { calcResult } from "../../atoms/calcResult";
+
 import FormInput from "../form-input/form-input";
+
 const InputContent = [
 	{
 		label: "Horário de entrada",
@@ -30,13 +32,24 @@ const renderInput = InputContent.map((input) => (
 	/>
 ));
 
+const handleHours = (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
+	console.log(e.currentTarget.elements);
+};
+
 export default function FormCalculator() {
 	const [showResult] = useAtom(calcResult);
 	return (
-		<div className=" w-max-96">
+		<form className=" w-max-96" onSubmit={handleHours}>
 			<FormInput key={1} identifier={1} label="Hora diária" id="based-hour" />
 			{renderInput}
 			{showResult && <div>oioi</div>}
-		</div>
+			<button
+				type="submit"
+				className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+			>
+				manda
+			</button>
+		</form>
 	);
 }

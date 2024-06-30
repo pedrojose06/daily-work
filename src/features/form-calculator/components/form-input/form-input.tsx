@@ -23,6 +23,21 @@ export default function FormInput({
 	const [lastHour, setLastHour] = useAtom(counter);
 	const [, setShowResult] = useAtom(calcResult);
 
+	const verifyHour = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.id === "based-hour") return setHourInput(hourInput + 1);
+
+		const value = e.target.value;
+
+		if (verifyLastHour(stringToHours(value)) && verifyHourRange(value)) {
+			setShowResult(true);
+			setLastHour(stringToHours(value));
+
+			return setHourInput(hourInput + 1);
+		}
+
+		return setHourInput(hourInput);
+	};
+
 	const verifyLastHour = (hour: number) => {
 		if (!!hour && lastHour < hour) return true;
 
@@ -33,21 +48,9 @@ export default function FormInput({
 		const hour = Number(value.split(":")[0]);
 		const minutes = Number(value.split(":")[1]);
 
-		if (hour > 24 || minutes > 60 || hour === 0 || minutes === 0) return false;
+		if (hour > 24 || minutes > 60 || hour < 0 || minutes < 0) return false;
 
 		return true;
-	};
-
-	const verifyHour = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-
-		if (verifyLastHour(stringToHours(value)) && verifyHourRange(value)) {
-			setShowResult(true);
-			setLastHour(stringToHours(value));
-			return setHourInput(hourInput + 1);
-		}
-
-		return setHourInput(hourInput);
 	};
 
 	return (
