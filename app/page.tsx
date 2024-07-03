@@ -4,7 +4,7 @@ import { Suspense } from "react";
 const FormCalculator = dynamic(
 	() =>
 		import(
-			"../src/features/form-calculator/components/form-calculator/fom-calculator"
+			"../src/features/form-calculator/components/form-calculator/form-calculator"
 		),
 	{
 		loading: () => <p>Loading...</p>,
