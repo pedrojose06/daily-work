@@ -5,4 +5,6 @@ const calcResult = atom(false);
 
 const basedHour = atomWithStorage("based-hour", "");
 
-export { basedHour, calcResult };
+const timeToGoHome = atom("");
+
+export { basedHour, calcResult, timeToGoHome };
