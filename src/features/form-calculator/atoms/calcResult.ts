@@ -1,3 +1,8 @@
 import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const calcResult = atom(false);
+const calcResult = atom(false);
+
+const basedHour = atomWithStorage("based-hour", "");
+
+export { basedHour, calcResult };

@@ -1,8 +1,9 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { calcResult } from "../../atoms/calcResult";
+import { useEffect, useState } from "react";
 
+import { basedHour, calcResult } from "../../atoms/calcResult";
 import FormInput from "../form-input/form-input";
 
 const InputContent = [
@@ -23,33 +24,52 @@ const InputContent = [
 	},
 ];
 
-const renderInput = InputContent.map((input) => (
-	<FormInput
-		key={input.id}
-		identifier={input.key}
-		label={input.label}
-		id={input.id}
-	/>
-));
-
-const handleHours = (e: React.FormEvent<HTMLFormElement>) => {
-	e.preventDefault();
-	console.log(e.currentTarget.elements);
-};
-
 export default function FormCalculator() {
 	const [showResult] = useAtom(calcResult);
+	const [basedHourValue, setBasedHourValue] = useAtom(basedHour);
+	const [basedInputFilled, setBasedInputFilled] = useState(
+		basedHourValue !== "",
+	);
+
+	const verifyBasedHour = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		if (value === "" || value === "00:00") return setBasedInputFilled(false);
+
+		const hour = Number(value.split(":")[0]);
+		const minutes = Number(value.split(":")[1]);
+
+		if (hour > 24 || minutes > 60 || hour < 0 || minutes < 0)
+			return setBasedInputFilled(false);
+		setBasedHourValue(value);
+		console.log(basedHourValue);
+		return setBasedInputFilled(true);
+	};
+
+	const renderInput = InputContent.map((input) => (
+		<FormInput
+			key={input.id}
+			identifier={input.key}
+			label={input.label}
+			disabled={!basedInputFilled}
+			id={input.id}
+		/>
+	));
+	useEffect(() => {
+		if (basedHourValue) setBasedInputFilled(true);
+	}, [basedHourValue]);
+
 	return (
-		<form className=" w-max-96" onSubmit={handleHours}>
-			<FormInput key={1} identifier={1} label="Hora diária" id="based-hour" />
+		<div className=" w-max-96">
+			<FormInput
+				key={1}
+				identifier={1}
+				type="time"
+				label="Hora diária"
+				id="based-hour"
+				onBlur={verifyBasedHour}
+			/>
+			{!!basedHourValue && <div>Horário base salvo :{basedHourValue}</div>}
 			{renderInput}
-			{showResult && <div>oioi</div>}
-			<button
-				type="submit"
-				className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-			>
-				manda
-			</button>
-		</form>
+		</div>
 	);
 }
