@@ -25,7 +25,7 @@ const InputContent = [
 		key: 4,
 	},
 ];
-const showHour = atom(!!basedHour);
+const showHour = atom(basedHour === atom(""));
 
 export default function FormCalculator() {
 	const [basedHourValue, setBasedHourValue] = useAtom(basedHour);
@@ -62,8 +62,11 @@ export default function FormCalculator() {
 	};
 
 	useEffect(() => {
-		if (basedHourValue) setBasedInputFilled(true);
-	}, [basedHourValue]);
+		if (basedHourValue) {
+			setBasedInputFilled(true);
+			setShowBasedHour(true);
+		}
+	}, [basedHourValue, setShowBasedHour]);
 
 	return (
 		<div className="flex w-max-96 flex-col justify-center">
@@ -86,7 +89,7 @@ export default function FormCalculator() {
 
 			{timeLeftToGo && timeToGo && (
 				<h1 className="mt-4">
-					Faltam {timeLeftToGo} para voce ir para casa, {timeToGo} já pode sair.
+					Faltam {timeLeftToGo} para voce ir para casa, {timeToGo} pode sair.
 				</h1>
 			)}
 		</div>
