@@ -34,9 +34,9 @@ export default function FormInput({
 		return date;
 	}
 	function decimalToHours(decimal: number) {
-		const hours = Math.floor(decimal); // Gets the whole number part (hours)
-		const minutes = Math.round((decimal - hours) * 60); // Converts the decimal part to minutes
-		return `${hours}:${minutes}`;
+		const hours = Math.floor(decimal);
+		const minutes = Math.round((decimal - hours) * 60);
+		return `${hours}:${minutes < 10 ? "0" : ""}${minutes} `;
 	}
 
 	const canCalculate = async (e: React.FocusEvent<HTMLInputElement>) => {
@@ -45,8 +45,6 @@ export default function FormInput({
 			(element) => element.id !== "based-hour",
 		);
 		const values = inputs.map((input) => input.value);
-
-		console.log(filteredElements.every((input) => input.value !== ""));
 
 		if (filteredElements.every((input) => input.value !== "")) {
 			const intTime = values.map((val) => {

@@ -41,7 +41,6 @@ export default function FormCalculator() {
 		if (hour > 24 || minutes > 60 || hour < 0 || minutes < 0)
 			return setBasedInputFilled(false);
 		setBasedHourValue(value);
-		console.log(basedHourValue);
 		return setBasedInputFilled(true);
 	};
 
