@@ -1,12 +1,18 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
 
-import { basedHour, calcResult, timeToGoHome } from "../atoms/calcResult";
+import {
+	basedHour,
+	calcResult,
+	timeLeft,
+	timeToGoHome,
+} from "../atoms/calcResult";
 import { decimalToHours } from "../utils/hours";
 
 export const useCalculateHour = () => {
 	const [, setShowResult] = useAtom(calcResult);
 	const [, setTimeToGo] = useAtom(timeToGoHome);
+	const [, setTimeLeft] = useAtom(timeLeft);
 	const [basedHourValue, setBasedHourValue] = useAtom(basedHour);
 	const [, setBasedInputFilled] = useState(basedHourValue !== "");
 
@@ -27,13 +33,13 @@ export const useCalculateHour = () => {
 				return hour + minutes / 60;
 			});
 			let time = 0;
-			for (let i = 1; i < intTime.length - 1; i = i + 2) {
+			for (let i = 0; i < intTime.length - 1; i = i + 2) {
 				time = intBasedHour - (intTime[i + 1] - intTime[i]);
 			}
 			const hour = intTime[intTime.length - 1] + time;
-			decimalToHours(hour);
 
 			setTimeToGo(decimalToHours(hour));
+			setTimeLeft(decimalToHours(time));
 			setShowResult(true);
 		}
 	};
@@ -48,6 +54,7 @@ export const useCalculateHour = () => {
 		if (hour > 24 || minutes > 60 || hour < 0 || minutes < 0)
 			return setBasedInputFilled(false);
 		setBasedHourValue(value);
+
 		return setBasedInputFilled(true);
 	};
 

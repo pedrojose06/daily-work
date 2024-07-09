@@ -7,4 +7,6 @@ const basedHour = atomWithStorage("based-hour", "");
 
 const timeToGoHome = atom("");
 
-export { basedHour, calcResult, timeToGoHome };
+const timeLeft = atom("");
+
+export { basedHour, calcResult, timeLeft, timeToGoHome };

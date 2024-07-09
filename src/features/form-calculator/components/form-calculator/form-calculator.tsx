@@ -1,9 +1,10 @@
 "use client";
 
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
-import { basedHour, timeToGoHome } from "../../atoms/calcResult";
+import { Button } from "@/components/ui/button";
+import { basedHour, timeLeft, timeToGoHome } from "../../atoms/calcResult";
 import { useCalculateHour } from "../../hooks/calculate";
 import FormInput from "../form-input/form-input";
 
@@ -24,14 +25,17 @@ const InputContent = [
 		key: 4,
 	},
 ];
+const showHour = atom(!!basedHour);
 
 export default function FormCalculator() {
-	const [basedHourValue] = useAtom(basedHour);
+	const [basedHourValue, setBasedHourValue] = useAtom(basedHour);
+	const [timeToGo, setTimeToGo] = useAtom(timeToGoHome);
+	const [timeLeftToGo, setTimeLeftToGo] = useAtom(timeLeft);
 	const [basedInputFilled, setBasedInputFilled] = useState(
 		basedHourValue !== "",
 	);
-	const [timeToGo] = useAtom(timeToGoHome);
-	const { canCalculate, verifyBasedHour } = useCalculateHour();
+	const [showBasedHour, setShowBasedHour] = useAtom(showHour);
+	const { verifyBasedHour } = useCalculateHour();
 
 	const renderInput = InputContent.map((input) => (
 		<FormInput
@@ -42,23 +46,49 @@ export default function FormCalculator() {
 			id={input.id}
 		/>
 	));
+
+	const resetBasedHour = () => {
+		setShowBasedHour(false);
+		setBasedInputFilled(false);
+		setBasedHourValue("");
+		setTimeToGo("");
+		setTimeLeftToGo("");
+
+		const inputs = Array.from(document.querySelectorAll("input"));
+
+		for (const input of inputs) {
+			input.value = "";
+		}
+	};
+
 	useEffect(() => {
 		if (basedHourValue) setBasedInputFilled(true);
 	}, [basedHourValue]);
 
 	return (
-		<div className=" w-max-96">
-			<FormInput
-				key={1}
-				identifier={1}
-				type="time"
-				label="Hora diária"
-				id="based-hour"
-				onBlur={verifyBasedHour}
-			/>
-			{!!basedHourValue && <div>Horário base salvo :{basedHourValue}</div>}
+		<div className="flex w-max-96 flex-col justify-center">
+			{showBasedHour ? (
+				<div className="flex items-center justify-center gap-4">
+					<div>Horário base salvo: {basedHourValue}</div>
+					<Button onClick={resetBasedHour}>Alterar</Button>
+				</div>
+			) : (
+				<FormInput
+					key={1}
+					identifier={1}
+					type="time"
+					label="Hora diária"
+					id="based-hour"
+					onBlur={verifyBasedHour}
+				/>
+			)}
 			{renderInput}
-			<h1>{timeToGo}</h1>
+
+			{timeLeftToGo && timeToGo && (
+				<h1 className="mt-4">
+					Faltam {timeLeftToGo} para voce ir para casa, {timeToGo} já pode sair.
+				</h1>
+			)}
 		</div>
 	);
 }

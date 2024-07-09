@@ -21,7 +21,7 @@ export default function FormInput({
 	const { canCalculate } = useCalculateHour();
 
 	return (
-		<div className="m-4 flex w-full flex-col">
+		<div className="mt-4 flex w-full flex-col items-center justify-center">
 			<Label htmlFor={id} className="text-gray-600">
 				{label}
 			</Label>
