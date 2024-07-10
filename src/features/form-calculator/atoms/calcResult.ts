@@ -1,7 +1,13 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-const calcResult = atom(false);
+enum resultTypes {
+	less = 0,
+	equal = 1,
+	more = 2,
+}
+
+const showResult = atom(0 as resultTypes);
 
 const basedHour = atomWithStorage("based-hour", "");
 
@@ -9,4 +15,4 @@ const timeToGoHome = atom("");
 
 const timeLeft = atom("");
 
-export { basedHour, calcResult, timeLeft, timeToGoHome };
+export { basedHour, showResult, timeLeft, timeToGoHome };

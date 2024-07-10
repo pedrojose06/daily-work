@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
@@ -16,6 +17,7 @@ export default function Home() {
 		<Suspense fallback={<p>Loading...</p>}>
 			<div className="flex h-lvh w-full items-center justify-center">
 				<FormCalculator />
+				<Toaster />
 			</div>
 		</Suspense>
 	);
