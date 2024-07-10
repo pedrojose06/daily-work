@@ -14,7 +14,7 @@ export default function FormInput({
 	label,
 	...props
 }: FormInputProps) {
-	const { canCalculate } = useCalculateHour();
+	const { canCalculate, verifyInputHours } = useCalculateHour();
 
 	return (
 		<div className="mt-4 flex w-full flex-col items-center justify-center">
@@ -24,7 +24,8 @@ export default function FormInput({
 			<Input
 				id={id}
 				type={props.type || "time"}
-				onBlurCapture={canCalculate}
+				key={identifier}
+				onBlurCapture={(e) => canCalculate(e)}
 				className="max-w-24 rounded border border-gray-300 p-2 "
 				{...props}
 			/>
