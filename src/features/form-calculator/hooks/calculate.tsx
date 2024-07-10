@@ -91,7 +91,6 @@ export const useCalculateHour = () => {
 			for (let i = 0; i < intTime.length - 1; i = i + 2) {
 				time = intBasedHour - (intTime[i + 1] - intTime[i]);
 			}
-			console.log(time);
 			if (time > 0 && countInputs.length % 2 === 1) {
 				setShowResult(0);
 				setTimeLeft(decimalToHours(time));
