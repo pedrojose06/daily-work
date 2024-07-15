@@ -5,6 +5,7 @@ enum resultTypes {
 	less = 0,
 	equal = 1,
 	more = 2,
+	moreThan24 = 3,
 }
 
 const showResult = atom(0 as resultTypes);

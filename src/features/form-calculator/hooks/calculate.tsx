@@ -105,7 +105,10 @@ export const useCalculateHour = () => {
 
 		if (filteredElements.every((input) => input.value !== "")) {
 			const hour = intTime[intTime.length - 1] + time;
-
+			if (hour > 24) {
+				setTimeToGo(decimalToHours(hour - 24));
+				setShowResult(3);
+			}
 			setTimeToGo(decimalToHours(hour));
 		}
 	};

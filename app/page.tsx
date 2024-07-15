@@ -15,7 +15,7 @@ const FormCalculator = dynamic(
 export default function Home() {
 	return (
 		<Suspense fallback={<p>Loading...</p>}>
-			<div className="flex h-lvh w-full items-center justify-center">
+			<div className="flex h-lvh w-full items-center justify-center p-4">
 				<FormCalculator />
 				<Toaster />
 			</div>
